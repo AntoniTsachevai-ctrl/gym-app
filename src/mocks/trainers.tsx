@@ -1,0 +1,55 @@
+export const trainers = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    email: "sarah.johnson@example.com",
+    phone: "+1234567890",
+    city: "London",
+    country: "UK",
+    avatar: "https://via.placeholder.com/150",
+    verified: true,
+    createdAt: "2022-01-01",
+    updatedAt: "2022-01-01",
+    coverImg:
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+    speciality: "Yoga Instructor",
+    tags: ["yoga", "instructor"],
+    rating: 4.8,
+  },
+
+  {
+    id: 2,
+    name: "Michael Brown",
+    email: "michael.brown@example.com",
+    phone: "+1234567890",
+    city: "Manchester",
+    country: "UK",
+    avatar: "https://via.placeholder.com/150",
+    verified: true,
+    createdAt: "2022-01-01",
+    updatedAt: "2022-01-01",
+    coverImg:
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop",
+    speciality: "HIIT Coach",
+    tags: ["hiit", "coach"],
+    rating: 4.9,
+  },
+
+  {
+    id: 3,
+    name: "David Lee",
+    email: "david.lee@example.com",
+    phone: "+1234567890",
+    city: "Birmingham",
+    country: "UK",
+    avatar: "https://via.placeholder.com/150",
+    verified: true,
+    createdAt: "2022-01-01",
+    updatedAt: "2022-01-01",
+    coverImg:
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=400&fit=crop",
+    speciality: "Strength Training",
+    tags: ["strength", "training"],
+    rating: 4.5,
+  },
+];
