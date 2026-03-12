@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import { trainers } from "../src/mocks/trainers";
 import TrainersCard from "../src/components/trainersCard";
+import { trainers } from "../src/mocks/trainers";
+
 
 export default function Home() {
   return (
