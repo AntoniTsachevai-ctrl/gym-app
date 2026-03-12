@@ -1,53 +1,51 @@
 import Image from "next/image";
-import Link from "next/link";
-
-type Trainer = {
-  id: string;
-  name: string;
-  speciality: string;
-  rating: number;
-  email: string;
-  city: string;
-  country: string;
-  avatar: string;
-  createdAt: string;
-  updatedAt: string;
-  coverImg: string;
-  verified: boolean;
-  tags: string[];
-};
+import { Trainer } from "./Trainer.type";
 
 export default function TrainersCard({ trainer }: { trainer: Trainer }) {
+  if (!trainer) return null;
+
+  const {
+    id,
+    avatar,
+    name,
+    speciality,
+    rating,
+    city,
+    coverImg,
+    verified,
+    tags,
+  } = trainer;
+
   return (
     <div
-      key={trainer.id}
+      key={id}
       className="bg-zinc-800/50 backdrop-blur rounded-2xl overflow-hidden border border-zinc-700 hover:border-lime-400 transition-all"
     >
       <div className="p-4 flex items-center gap-3">
         <Image
-          src={trainer.avatar}
-          alt={trainer.name}
+          src={avatar}
+          alt={name}
           width={40}
           height={40}
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
           <div className="font-semibold flex items-center gap-2">
-            {trainer.name}
-            {trainer.verified && (
+            {name}
+            {verified && (
               <span className="text-xs bg-lime-400 hover:bg-lime-500 text-black px-2 py-1 rounded-full">
                 Verified
               </span>
             )}
           </div>
-          <div className="text-sm text-white/60">{trainer.speciality}</div>
+          <div className="text-sm text-white/60">{speciality}</div>
         </div>
       </div>
       <div className="h-48 bg-zinc-700 flex items-center justify-center">
-        {trainer.coverImg ? (
+        {coverImg ? (
           <Image
-            src={trainer.coverImg}
-            alt={`${trainer.name} workout`}
+            src={coverImg}
+            alt={`${name} workout`}
             className="w-full h-full object-cover"
             width={800}
             height={400}
@@ -59,7 +57,7 @@ export default function TrainersCard({ trainer }: { trainer: Trainer }) {
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs bg-cyan-400/20   text-cyan-400 px-3 py-1 rounded-full">
-            {trainer.tags[0]}
+            {tags[0]}
           </span>
           <div className="flex gap-2">
             <button className="text-white/60 hover:text-lime-400 transition-colors">
@@ -78,8 +76,8 @@ export default function TrainersCard({ trainer }: { trainer: Trainer }) {
           </div>
         </div>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-yellow-400">⭐ {trainer.rating}</span>
-          <span className="text-sm text-white/60">{trainer.city}</span>
+          <span className="text-yellow-400">⭐ {rating}</span>
+          <span className="text-sm text-white/60">{city}</span>
         </div>
         <button className="w-full py-2 bg-lime-400 text-black font-semibold rounded-full hover:bg-lime-300 transition-colors">
           Start Training
