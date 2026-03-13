@@ -2,7 +2,6 @@ import Link from "next/link";
 import TrainersCard from "../src/components/trainersCard";
 import { trainers } from "../src/mocks/trainers";
 
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white font-sans">
