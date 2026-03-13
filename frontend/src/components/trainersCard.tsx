@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Trainer } from "./trainer.types";
+import type { Trainer } from "../../../shared/types/trainer.types";
 
 export default function TrainersCard({ trainer }: { trainer: Trainer }) {
   if (!trainer) return null;
