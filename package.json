@@ -7,13 +7,13 @@
     "backend"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev -w frontend\" \"npm run start:dev -w backend\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\"",
-    "dev:frontend": "npm run dev -w frontend",
-    "dev:backend": "npm run start:dev -w backend",
-    "build": "npm run build -w frontend && npm run build -w backend",
+    "dev": "concurrently \"pnpm --filter gym-app dev\" \"pnpm --filter backend start:dev\" --names \"frontend,backend\" --prefix-colors \"cyan,magenta\"",
+    "dev:frontend": "pnpm --filter gym-app dev",
+    "dev:backend": "pnpm --filter backend start:dev",
+    "build": "pnpm --filter gym-app build && pnpm --filter backend build",
     "format": "prettier --write .",
-    "typecheck": "npm run typecheck -w frontend && npm run build -w backend",
-    "lint": "npm run lint -w frontend",
+    "typecheck": "pnpm --filter gym-app typecheck && pnpm --filter backend build",
+    "lint": "pnpm --filter gym-app lint",
     "prepare": "husky"
   },
   "devDependencies": {
