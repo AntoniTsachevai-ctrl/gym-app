@@ -10,26 +10,100 @@ src/
 ├── lib/
 │   └── prisma.ts       # Prisma client singleton
 ├── routes/
-│   └── trainers.ts     # Trainers endpoints
+│   ├── index.ts        # Route registration
+│   ├── trainers.ts     # Trainers endpoints
+│   └── users.ts        # Users endpoints
 └── services/
-    └── trainers.ts     # Business logic with Prisma
+    ├── trainers.ts     # Trainers business logic
+    └── users.ts        # Users business logic
 prisma/
 ├── schema.prisma       # Database schema
-└── seed.ts             # Seed data
+├── seed.ts             # Trainer seed data
+└── seedUsers.ts        # User seed data
 ```
 
-## Database Setup
+## Quick Start
 
-### 1. Set up PostgreSQL
+### Prerequisites
 
-Choose one option:
+- **Node.js** 18+ installed
+- **Supabase account** (free tier available at [supabase.com](https://supabase.com))
+- **pnpm** installed globally: `npm install -g pnpm`
 
-**Option A: Cloud (Recommended for quick start)**
-- [Neon](https://neon.tech) - Free tier, instant setup
-- [Supabase](https://supabase.com) - Free tier with extras
-- [Railway](https://railway.app) - Free tier
+### Setup Steps
 
-**Option B: Local with Docker**
+**1. Install dependencies:**
+```bash
+pnpm install
+```
+
+**2. Set up Supabase database:**
+- Go to [supabase.com](https://supabase.com) and create a new project
+- Wait for the database to be provisioned (~2 minutes)
+- Go to **Settings** → **Database** → **Connection string**
+- Copy the **Transaction pooler** URI (port 6543)
+
+**3. Create `.env` file in `backend/` folder:**
+```bash
+cp .env.example .env
+```
+Then update with your Supabase connection string:
+```bash
+DATABASE_URL="postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+```
+
+**4. Generate Prisma Client:**
+```bash
+pnpm run db:generate
+```
+
+**5. Run database migrations:**
+```bash
+pnpm run db:migrate
+```
+
+**6. Seed the database:**
+```bash
+pnpm run db:seed                    # Seed trainers
+pnpm exec tsx prisma/seedUsers.ts   # Seed users
+```
+
+**7. Start the backend:**
+```bash
+pnpm run dev
+```
+
+Backend will be running at `http://localhost:4000` 🚀
+
+## Database Setup Options
+
+### Option A: Supabase (Recommended - Currently Used)
+
+**Setup:**
+1. Create account at [supabase.com](https://supabase.com)
+2. Create new project
+3. Go to **Settings** → **Database** → **Connection string**
+4. Copy **Transaction pooler** URI
+
+**DATABASE_URL (Transaction pooler - recommended):**
+```
+DATABASE_URL="postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+```
+
+**DATABASE_URL (Direct connection - alternative):**
+```
+DATABASE_URL="postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].supabase.co:5432/postgres"
+```
+
+**Benefits:**
+- ✅ Free tier (500MB database)
+- ✅ No local setup required
+- ✅ Easy team collaboration
+- ✅ Automatic backups
+
+### Option B: Local with Docker
+
+**Start container:**
 ```bash
 docker run --name gym-postgres \
   -e POSTGRES_PASSWORD=password \
@@ -38,45 +112,44 @@ docker run --name gym-postgres \
   -d postgres
 ```
 
-**Option C: Local Installation**
-- Install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/)
-- Create database: `createdb gym_app`
-
-### 2. Configure Environment
-
-Create `backend/.env`:
+**Manage container:**
 ```bash
-# For local PostgreSQL
-DATABASE_URL="postgresql://postgres:password@localhost:5432/gym_app?schema=public"
-
-# For cloud (use your connection string)
-DATABASE_URL="postgresql://user:pass@host.region.provider.com/dbname"
+docker start gym-postgres    # Start existing container
+docker stop gym-postgres     # Stop container
+docker rm gym-postgres       # Remove container
 ```
 
-### 3. Run Migrations
+**DATABASE_URL:**
+```
+DATABASE_URL="postgresql://postgres:password@localhost:5432/gym_app?schema=public"
+```
 
-```bash
-cd backend
-npm run db:migrate      # Create database tables
-npm run db:seed         # Add sample data
+### Option C: Other Cloud Providers
+
+- [Neon](https://neon.tech) - Free tier, instant setup
+- [Railway](https://railway.app) - Free tier
+
+**DATABASE_URL:**
+```
+DATABASE_URL="postgresql://user:pass@host.region.provider.com/dbname"
 ```
 
 ## Running
 
 ```bash
-npm run dev             # Development with hot reload
-npm run build           # Build for production
-npm start               # Run production build
+pnpm run dev             # Development with hot reload
+pnpm run build           # Build for production
+pnpm start               # Run production build
 ```
 
 ## Database Commands
 
 ```bash
-npm run db:generate     # Generate Prisma client
-npm run db:migrate      # Run migrations
-npm run db:push         # Push schema without migration
-npm run db:seed         # Seed database
-npm run db:studio       # Open Prisma Studio (GUI)
+pnpm run db:generate     # Generate Prisma client
+pnpm run db:migrate      # Run migrations
+pnpm run db:push         # Push schema without migration
+pnpm run db:seed         # Seed database
+pnpm run db:studio       # Open Prisma Studio (GUI)
 ```
 
 ## API Endpoints
@@ -86,6 +159,14 @@ npm run db:studio       # Open Prisma Studio (GUI)
 - `GET /trainers` - Get all trainers
 - `GET /trainers/:id` - Get trainer by ID
 - `POST /trainers` - Create new trainer
+
+### Users
+
+- `GET /users` - Get all users
+- `GET /users/:id` - Get user by ID
+- `POST /users` - Create new user
+- `PATCH /users/:id` - Update user
+- `DELETE /users/:id` - Delete user
 
 ## Adding New Routes
 
@@ -138,12 +219,12 @@ export async function workoutsRoutes(fastify: FastifyInstance) {
 ## Troubleshooting
 
 ### Prisma Client errors
-Run `npm run db:generate` to regenerate the Prisma client.
+Run `pnpm run db:generate` to regenerate the Prisma client.
 
 ### Migration errors
 If migrations fail, you can reset the database:
 ```bash
-npx prisma migrate reset
+pnpm exec prisma migrate reset
 ```
 
 ### Can't connect to database
