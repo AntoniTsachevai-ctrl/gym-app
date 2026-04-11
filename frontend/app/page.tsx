@@ -58,7 +58,7 @@ export default function Home() {
               Find Your Trainer
             </Link>
             <Link
-              href="#instructors"
+              href="/register"
               className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-black transition-all"
             >
               Join as Instructor
@@ -78,9 +78,7 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trainers.map((trainer) => (
-              <>
-                <TrainersCard trainer={trainer} />
-              </>
+              <TrainersCard key={trainer.id} trainer={trainer} />
             ))}
           </div>
         </div>
